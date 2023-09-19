@@ -1,21 +1,56 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { BASICO, INTERMEDIARIO, AVANÇADO }
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+class Usuario(val nome: String, val email: String) {
 
-class Usuario
+    override fun toString(): String = """
+        Nome:  $nome
+        Email: $email
+   """.trimIndent()
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+}
+data class ConteudoEducacional(val nome: String, val duracao: String, val nivel: Nivel) {
+    override fun toString(): String = """
+        Nome:    $nome
+        Duração: $duracao
+        Nivel:   $nivel
+   """.trimIndent()
+}
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) {
 
     val inscritos = mutableListOf<Usuario>()
     
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        inscritos.add(usuario)
     }
+
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    
+    // Criando os conteúdos educacionais
+    val kotlin = ConteudoEducacional("Desenvolvedor Kotlin", "78h", Nivel.INTERMEDIARIO)
+    val java = ConteudoEducacional("Desenvolvedor Java", "96h", Nivel.AVANÇADO)
+
+    println("Cursos disponíveis:\n" +
+            "$kotlin\n" +
+            "$java")
+
+
+    // Criando uma formação
+    val formacao1 = Formacao("Desenvolvedor Kotlin", listOf(kotlin,java))
+    val formacao2 = Formacao("Desenvolvedor Java", listOf(kotlin,java))
+
+    // Criando um usuário na formação e executando sua matrícula
+    val usuario1 = Usuario("Fabio Martins", "fabio@email.com")
+    formacao1.matricular(usuario1)
+
+    val usuario2 = Usuario("John Doe", "joh@email.com")
+    formacao2.matricular(usuario2)
+
+
+    println("Usuário:\n $usuario1\n Matriculado na formação: ${formacao1.nome}")
+
+    println("Usuário:\n $usuario2\n Matriculado na formação: ${formacao2.nome}")
+
 }
